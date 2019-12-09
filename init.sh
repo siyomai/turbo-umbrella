@@ -22,3 +22,11 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 cp .vimrc ~/.vimrc
 (cd ~ && vim +PlugInstall)
+
+if [-f "/etc/arch-release"]; then
+  pacman -S tmux
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  brew install tmux
+fi
+
+cp .tmux.conf ~/.tmux.conf
