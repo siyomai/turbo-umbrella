@@ -10,26 +10,40 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'flazz/vim-colorschemes'
 Plug 'sjl/badwolf'
 Plug 'demorose/up.vim'
+Plug 'Townk/vim-autoclose'
 Plug 'Lokaltog/vim-powerline'
 Plug 'scrooloose/nerdtree'
 Plug 'rking/ag.vim'
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'alfredodeza/jacinto.vim'
-Plug 'xero/sourcerer.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-bundler'
 Plug 'pangloss/vim-javascript'
 Plug 'airblade/vim-gitgutter'
-Plug 'Shougo/neocomplcache.vim'
 Plug 'slashmili/alchemist.vim'
 Plug 'digitaltoad/vim-pug'
 Plug 'elixir-lang/vim-elixir'
+" Colors
+Plug 'xero/sourcerer.vim'
 Plug 'YorickPeterse/happy_hacking.vim'
+Plug 'zefei/simple-dark'
+Plug 'sainnhe/sonokai'
+Plug 'gryf/wombat256grf'
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'mhinz/vim-mix-format'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'mhinz/vim-startify'
+Plug 'ryanoasis/vim-devicons'
+Plug 'ajh17/VimCompletesMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'wakatime/vim-wakatime'
+Plug 'sheerun/vim-polyglot'
+Plug 'habamax/vim-elixir-mix-test'
 
 call plug#end()
 
@@ -42,6 +56,8 @@ filetype plugin indent on
 
 let mapleader=","
 
+set hlsearch
+set novisualbell
 set ttymouse=xterm
 set cursorline
 set expandtab
@@ -51,15 +67,14 @@ set shiftwidth=2
 set clipboard=unnamed
 set synmaxcol=128
 set ttyscroll=10
-set encoding=utf-8
+set encoding=UTF-8
 set tabstop=2
 set nowrap
-set number
+set nonumber
 set expandtab
 set nowritebackup
 set noswapfile
 set nobackup
-set hlsearch
 set ignorecase
 set smartcase
 
@@ -76,10 +91,6 @@ autocmd VimEnter * set nosc
 
 " Quick ESC
 imap jj <ESC>
-
-" NERDCommenter
-nmap <leader># :call NERDComment(0, invert)<cr>
-vmap <leader># :call NERDComment(0, invert)<cr>
 
 " JS
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
@@ -108,7 +119,16 @@ noremap <tab> <c-w><c-w>
 " Switch between last two buffers
 nnoremap <leader><leader> <C-^>
 
+" Fugutive
+nmap <leader>gs :Git<CR>
+nmap <leader>gp :Gpush<CR>
+nmap <leader>gcb :Git checkout -b
+nmap <leader>gco :Git checkout
+nmap <leader>gpd :Git pull origin develop --rebase<CR>
+
 " NERDTree
+let NERDTreeHighlightCursorline=1
+let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg']
 nmap <leader>n :NERDTreeToggle<CR>
 map <c-n> :NERDTreeToggle<CR>
 map <c-h> <c-w><left>
@@ -116,12 +136,17 @@ map <c-k> <c-w><up>
 map <c-j> <c-w><down>
 map <c-l> <c-w><right>
 
-" FZF
-nmap <c-p> :FZF<CR>
-nmap <c-s> :Rg<CR>
+" Mix Test
+let g:elixir_mix_test_position = "bottom"
+nmap <leader>ta <Plug>(MixTestRun)
 
-let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg']
+" Mix Format
+let g:mix_format_on_save=1
+
+" FZF
+"nmap <c-p> :FZF!<CR>
+nmap <c-p> :GFiles<CR>
+nmap <c-\> :Rg<CR>
 
 " CLIPBOARD
 let os=substitute(system('uname'), '\n', '', '')
@@ -142,5 +167,24 @@ let g:syntastic_enable_balloons=1
 let g:syntastic_loc_list_height = 5
 
 let g:powerline_pycmd = 'py3'
+
+let g:doeplete#enable_at_startup=1
+
+let b:vcm_tab_complete='vim'
+
+" Startify
+let g:startify_bookmarks=[{'a': '~/.vimrc'}, {'b': '~/.zshrc'}]
+let g:startify_lists = [
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ ]
+let g:startify_session_persistence=1
+
+nnoremap <leader>ls :SSave<CR>
+nnoremap <leader>ll :SClose<CR>
+
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+let g:prettier#autoformat_require_pragma=0
+let g:prettier#config#semi='false'
 
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/node_modules/*,*/bower_components/*,*/tmp/*,*/deps/*
