@@ -25,6 +25,8 @@ cp .vimrc ~/.vimrc
 
 if [-f "/etc/arch-release"]; then
   pacman -S tmux
+if [-f "/etc/apt"]; then
+  apt install tmux
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install tmux
 fi
