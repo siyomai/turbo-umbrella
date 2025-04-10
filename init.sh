@@ -5,7 +5,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 source ~/.zshrc
 
 # asdf setup
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.4
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.zshrc
 echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.zshrc
 source ~/.zshrc
@@ -23,9 +23,9 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 cp .vimrc ~/.vimrc
 (cd ~ && vim +PlugInstall)
 
-if [-f "/etc/arch-release"]; then
+if [ -f "/etc/arch-release" ]; then
   pacman -S tmux
-if [-f "/etc/apt"]; then
+if [ -f "/etc/apt" ]; then
   apt install tmux
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install tmux
